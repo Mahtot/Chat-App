@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "650903981970",
+    "project_id": "auth-development-2630a",
+    "storage_bucket": "auth-development-2630a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:650903981970:android:1bebae4fd045649c94bb4b",
+        "android_client_info": {
+          "package_name": "com.example.chat_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "650903981970-agq7rjfpesn0c1633oankp4uohnn0g8t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDP8RFBjv6kw5TzvIJBEu0qMJ0lAoSGcWw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "650903981970-agq7rjfpesn0c1633oankp4uohnn0g8t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
