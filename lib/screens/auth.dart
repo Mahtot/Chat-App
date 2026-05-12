@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+final _firebase = FirebaseAuth.instance;
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -10,16 +13,58 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   var _isLogin = true;
   final _form = GlobalKey<FormState>();
+  bool _isSubmitting = false;
 
-  String? _enteredEmail ;
-  String? _enteredPassword ;
+  String? _enteredEmail;
+  String? _enteredPassword;
 
-  void _submit() {
+  void _submit() async {
     final isValid = _form.currentState!.validate();
-    if (isValid) {
-      _form.currentState!.save();
-      print(_enteredEmail);
-      print(_enteredPassword);
+
+    if (!isValid) {
+      return;
+    }
+
+    _form.currentState!.save();
+    try {
+      if (_isLogin) {
+        setState(() {
+          _isSubmitting = true;
+        });
+        final UserCredential = await _firebase.signInWithEmailAndPassword(
+          email: _enteredEmail!,
+          password: _enteredPassword!,
+        );
+        setState(() {
+          _isSubmitting = false;
+        });
+        print(UserCredential);
+      } else {
+        setState(() {
+          _isSubmitting = true;
+        });
+
+        final userCredentials = await _firebase.createUserWithEmailAndPassword(
+          email: _enteredEmail!,
+          password: _enteredPassword!,
+        );
+        setState(() {
+          _isSubmitting = false;
+        });
+        print(userCredentials);
+      }
+    } on FirebaseAuthException catch (error) {
+      setState(() {
+        _isSubmitting = false;
+      });
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            error.message ?? 'An error occurred, please try again.',
+          ),
+        ),
+      );
     }
   }
 
@@ -93,7 +138,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                 context,
                               ).colorScheme.primaryContainer,
                             ),
-                            child: Text(_isLogin ? 'Login' : 'Signup'),
+                            child: _isSubmitting
+                                ? const CircularProgressIndicator()
+                                : Text(_isLogin ? 'Login' : 'Signup'),
                           ),
                           TextButton(
                             onPressed: () {
