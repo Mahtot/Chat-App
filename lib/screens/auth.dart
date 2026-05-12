@@ -11,8 +11,8 @@ class _AuthScreenState extends State<AuthScreen> {
   var _isLogin = true;
   final _form = GlobalKey<FormState>();
 
-  var _enteredEmail;
-  var _enteredPassword;
+  String? _enteredEmail ;
+  String? _enteredPassword ;
 
   void _submit() {
     final isValid = _form.currentState!.validate();

@@ -50,20 +50,19 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDP8RFBjv6kw5TzvIJBEu0qMJ0lAoSGcWw',
-    appId: '1:650903981970:android:1bebae4fd045649c94bb4b',
-    messagingSenderId: '650903981970',
-    projectId: 'auth-development-2630a',
-    storageBucket: 'auth-development-2630a.firebasestorage.app',
+    apiKey: 'AIzaSyB9UQsYtuE9Xi_krrLZwBP0KuINpHyAi1k',
+    appId: '1:499462805344:android:806adf0c1eee507411f005',
+    messagingSenderId: '499462805344',
+    projectId: 'flutter-chat-app-ab853',
+    storageBucket: 'flutter-chat-app-ab853.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDp08kVr3Uwnaww3kRqnd3C2-a7qj3D9ak',
-    appId: '1:650903981970:ios:d5527d8ee38b605194bb4b',
-    messagingSenderId: '650903981970',
-    projectId: 'auth-development-2630a',
-    storageBucket: 'auth-development-2630a.firebasestorage.app',
-    iosClientId: '650903981970-m769ldjao7hc23itqpcaib6t9vpmm594.apps.googleusercontent.com',
+    apiKey: 'AIzaSyCoBST5oYnLLnKlBP1GhuEfedU5GVtimxE',
+    appId: '1:499462805344:ios:fbdf8411bd09c53a11f005',
+    messagingSenderId: '499462805344',
+    projectId: 'flutter-chat-app-ab853',
+    storageBucket: 'flutter-chat-app-ab853.firebasestorage.app',
     iosBundleId: 'com.example.chatApp',
   );
 
