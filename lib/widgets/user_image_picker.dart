@@ -10,6 +10,17 @@ class UserImagePicker extends StatefulWidget {
 class _UserImagePickerState extends State<UserImagePicker> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Column(
+      children: [
+        CircleAvatar(
+          radius: 40,
+          foregroundImage:...,
+          backgroundColor: Colors.grey
+        ), 
+        TextButton.icon(label: Text('Add Image', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+        onPressed:(){},
+        icon: Icon(Icons.image)) 
+      ]
+    );
   }
 }
