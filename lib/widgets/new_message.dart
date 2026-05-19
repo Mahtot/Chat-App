@@ -57,6 +57,8 @@ class _NewMessageState extends State<NewMessage> {
               autocorrect: true,
               enableSuggestions: true,
               decoration: InputDecoration(labelText: 'Send a message....'),
+              keyboardType: TextInputType.multiline,
+              maxLines: null,
             ),
           ),
           IconButton(
