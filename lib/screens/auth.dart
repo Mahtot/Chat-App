@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:chat_app/widgets/user_image_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -48,16 +49,23 @@ class _AuthScreenState extends State<AuthScreen> {
           password: _enteredPassword!,
         );
 
-        final storageRef = FirebaseStorage.instance
-            .ref()
-            .child('user_images')
-            .child('${userCredentials.user!.uid}.jpg');
+        // final storageRef = FirebaseStorage.instance
+        //     .ref()
+        //     .child('user_images')
+        //     .child('${userCredentials.user!.uid}.jpg');
 
-        await storageRef.putFile(_selectedImage!);
+        // await storageRef.putFile(_selectedImage!);
 
-        final imageUrl = await storageRef.getDownloadURL();
-        print(imageUrl);
-        print(userCredentials);
+        // final imageUrl = await storageRef.getDownloadURL();
+
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userCredentials.user!.uid)
+            .set({
+              'username': 'to be done ...',
+              'email': _enteredEmail,
+              'image_url': 'https://girldp.net/wp-content/uploads/2025/11/girls-whatsapp-dp-new-collection.jpg',
+            });
       }
     } on FirebaseAuthException catch (error) {
       setState(() {
