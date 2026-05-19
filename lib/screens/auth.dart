@@ -22,6 +22,8 @@ class _AuthScreenState extends State<AuthScreen> {
 
   String? _enteredEmail;
   String? _enteredPassword;
+  String? _enteredUsername;
+
   File? _selectedImage;
 
   void _submit() async {
@@ -62,9 +64,10 @@ class _AuthScreenState extends State<AuthScreen> {
             .collection('users')
             .doc(userCredentials.user!.uid)
             .set({
-              'username': 'to be done ...',
+              'username': _enteredUsername,
               'email': _enteredEmail,
               'image_url': 'https://girldp.net/wp-content/uploads/2025/11/girls-whatsapp-dp-new-collection.jpg',
+
             });
       }
     } on FirebaseAuthException catch (error) {
@@ -135,7 +138,24 @@ class _AuthScreenState extends State<AuthScreen> {
                               _enteredEmail = value;
                             },
                           ),
-
+                        const SizedBox(height: 12),
+                        if(!_isLogin)
+                            TextFormField(
+                              decoration: InputDecoration(labelText: 'Username'),
+                              enableSuggestions: false,
+                              autocorrect: false,
+                              textCapitalization: TextCapitalization.words,
+                              validator: (value) {
+                                if (value == null || value.trim().length < 4) {
+                                  return 'Please enter a valid username (at least 4 characters).';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                _enteredUsername = value;
+                              },
+                            ),
+                        const SizedBox(height: 12),
                           TextFormField(
                             decoration: InputDecoration(labelText: 'Password'),
                             obscureText: true,
