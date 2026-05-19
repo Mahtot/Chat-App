@@ -32,23 +32,17 @@ class _AuthScreenState extends State<AuthScreen> {
 
     _form.currentState!.save();
     try {
+      setState(() {
+        _isSubmitting = true;
+      });
       if (_isLogin) {
-        setState(() {
-          _isSubmitting = true;
-        });
         final UserCredential = await _firebase.signInWithEmailAndPassword(
           email: _enteredEmail!,
           password: _enteredPassword!,
         );
-        setState(() {
-          _isSubmitting = false;
-        });
+
         print(UserCredential);
       } else {
-        setState(() {
-          _isSubmitting = true;
-        });
-
         final userCredentials = await _firebase.createUserWithEmailAndPassword(
           email: _enteredEmail!,
           password: _enteredPassword!,
@@ -63,9 +57,6 @@ class _AuthScreenState extends State<AuthScreen> {
 
         final imageUrl = await storageRef.getDownloadURL();
         print(imageUrl);
-        setState(() {
-          _isSubmitting = false;
-        });
         print(userCredentials);
       }
     } on FirebaseAuthException catch (error) {
