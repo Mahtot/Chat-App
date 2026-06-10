@@ -8,8 +8,7 @@ class ChatMessages extends StatelessWidget {
 
   @override
   Widget build(context) {
-    final currentUser =  FirebaseAuth.instance.currentUser;
-
+    final currentUser = FirebaseAuth.instance.currentUser;
 
     return StreamBuilder(
       stream: FirebaseFirestore.instance
@@ -18,21 +17,60 @@ class ChatMessages extends StatelessWidget {
           .snapshots(),
       builder: (ctx, chatSnapshots) {
         if (chatSnapshots.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(
+            child: CircularProgressIndicator(color: Color(0xFF6C3EF6)),
+          );
         }
 
         if (chatSnapshots.hasError) {
-          return Center(child: Text('Something went wrong. Try again later.'));
+          return Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.error_outline,
+                    size: 48, color: Colors.grey.shade400),
+                const SizedBox(height: 12),
+                Text(
+                  'Something went wrong.',
+                  style: TextStyle(color: Colors.grey.shade600),
+                ),
+              ],
+            ),
+          );
         }
 
         if (!chatSnapshots.hasData || chatSnapshots.data!.docs.isEmpty) {
-          return Center(child: Text("No messages found."));
+          return Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.chat_bubble_outline_rounded,
+                  size: 64,
+                  color: Colors.grey.shade300,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'No messages yet.',
+                  style:
+                      TextStyle(color: Colors.grey.shade500, fontSize: 16),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Be the first to say hello!',
+                  style:
+                      TextStyle(color: Colors.grey.shade400, fontSize: 14),
+                ),
+              ],
+            ),
+          );
         }
 
         final loadedMessages = chatSnapshots.data!.docs;
 
         return ListView.builder(
-          padding: EdgeInsets.only(bottom: 40, left: 13, right: 13),
+          padding: const EdgeInsets.only(
+              bottom: 16, left: 8, right: 8, top: 8),
           itemCount: loadedMessages.length,
           itemBuilder: (ctx, index) {
             final chatMessage = loadedMessages[index].data();
@@ -40,14 +78,22 @@ class ChatMessages extends StatelessWidget {
                 ? loadedMessages[index + 1].data()
                 : null;
             final currentMessageUserId = chatMessage['userId'];
-            final nextMessageUserId = nextChatMessage != null
-                ? nextChatMessage['userId']
-                : null;
+            final nextMessageUserId =
+                nextChatMessage != null ? nextChatMessage['userId'] : null;
             final nextUserIsSame = currentMessageUserId == nextMessageUserId;
-            if(nextUserIsSame){
-              return MessageBubble.next(message: chatMessage['text'], isMe: currentUser!.uid == currentMessageUserId);
-            } else{
-              return MessageBubble.first(userImage: chatMessage['userImage'], username: chatMessage['username'], message: chatMessage['text'], isMe: currentUser!.uid == currentMessageUserId);
+
+            if (nextUserIsSame) {
+              return MessageBubble.next(
+                message: chatMessage['text'],
+                isMe: currentUser!.uid == currentMessageUserId,
+              );
+            } else {
+              return MessageBubble.first(
+                userImage: chatMessage['userImage'],
+                username: chatMessage['username'],
+                message: chatMessage['text'],
+                isMe: currentUser!.uid == currentMessageUserId,
+              );
             }
           },
         );

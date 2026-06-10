@@ -18,21 +18,27 @@ class App extends StatelessWidget {
   @override
   Widget build(context) {
     return MaterialApp(
-      title: 'Flutter Chat',
-      theme: ThemeData().copyWith(
+      title: 'FlutterChat',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 63, 17, 177),
+          seedColor: const Color(0xFF6C3EF6),
+          brightness: Brightness.light,
         ),
       ),
-      home: StreamBuilder(stream: FirebaseAuth.instance.authStateChanges(), builder: (ctx, snapshot){
-        if(snapshot.connectionState == ConnectionState.waiting){
-          return const SplashScreen();
-        }
-        if(snapshot.hasData){
-          return const ChatScreen();
-        }
-        return const AuthScreen();
-      }),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (ctx, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const SplashScreen();
+          }
+          if (snapshot.hasData) {
+            return const ChatScreen();
+          }
+          return const AuthScreen();
+        },
+      ),
     );
   }
 }

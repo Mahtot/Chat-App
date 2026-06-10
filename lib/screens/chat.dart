@@ -15,10 +15,8 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   void setupPushNotifications() async {
     final fcm = FirebaseMessaging.instance;
-
-    final notificationSettings = await fcm.requestPermission();
-
-    fcm.subscribeToTopic('chat');   //we can send this token via Http or firestore SDK to a backend 
+    await fcm.requestPermission();
+    fcm.subscribeToTopic('chat');
   }
 
   @override
@@ -30,25 +28,66 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF0F2F5),
       appBar: AppBar(
-        title: const Text('Chat'),
+        elevation: 0,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Color(0xFF6C3EF6), Color(0xFF9B6FFF)],
+            ),
+          ),
+        ),
+        title: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(7),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.2),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.chat_bubble_rounded,
+                color: Colors.white,
+                size: 18,
+              ),
+            ),
+            const SizedBox(width: 10),
+            const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'FlutterChat',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 17,
+                  ),
+                ),
+                Text(
+                  'Online',
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 11,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
         actions: [
           IconButton(
-            icon: Icon(
-              Icons.logout,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-
+            icon: const Icon(Icons.logout_rounded, color: Colors.white),
             tooltip: 'Logout',
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
-            },
+            onPressed: () => FirebaseAuth.instance.signOut(),
           ),
         ],
       ),
-      body: Column(
+      body: const Column(
         children: [
-          const SizedBox(height: 12),
           Expanded(child: ChatMessages()),
           NewMessage(),
         ],

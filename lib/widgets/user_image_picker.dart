@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserImagePicker extends StatefulWidget {
-  UserImagePicker({super.key, required this.onPickImage});
+  const UserImagePicker({super.key, required this.onPickImage});
 
   final void Function(File pickedImage) onPickImage;
 
@@ -21,14 +21,8 @@ class _UserImagePickerState extends State<UserImagePicker> {
       imageQuality: 50,
       maxWidth: 150,
     );
-
-    if (pickedImage == null) {
-      return;
-    }
-
-    setState(() {
-      _pickedImage = File(pickedImage.path);
-    });
+    if (pickedImage == null) return;
+    setState(() => _pickedImage = File(pickedImage.path));
     widget.onPickImage(_pickedImage!);
   }
 
@@ -36,20 +30,41 @@ class _UserImagePickerState extends State<UserImagePicker> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CircleAvatar(
-          radius: 40,
-          foregroundImage: _pickedImage != null
-              ? FileImage(_pickedImage!)
-              : null,
-          backgroundColor: Colors.grey,
-        ),
-        TextButton.icon(
-          label: Text(
-            'Add Image',
-            style: TextStyle(color: Theme.of(context).colorScheme.primary),
+        GestureDetector(
+          onTap: _pickImage,
+          child: Stack(
+            children: [
+              CircleAvatar(
+                radius: 44,
+                backgroundColor: const Color(0xFFF0F2F5),
+                foregroundImage:
+                    _pickedImage != null ? FileImage(_pickedImage!) : null,
+                child: _pickedImage == null
+                    ? const Icon(Icons.person, size: 44, color: Colors.grey)
+                    : null,
+              ),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Color(0xFF6C3EF6), Color(0xFF9B6FFF)],
+                    ),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(Icons.camera_alt,
+                      color: Colors.white, size: 15),
+                ),
+              ),
+            ],
           ),
-          onPressed: _pickImage,
-          icon: Icon(Icons.image),
+        ),
+        const SizedBox(height: 8),
+        const Text(
+          'Tap to add photo',
+          style: TextStyle(color: Colors.grey, fontSize: 13),
         ),
       ],
     );
